@@ -1,0 +1,114 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/references/cli_reference/
+docs: https://support.workbench.verily.com/docs/guides/cli/cli_install_and_run/
+name: Verily Workbench CLI (`wb`)
+binary: wb
+summary: >-
+  `wb` is Verily's first-party command line interface for Verily Workbench. It is the primary
+  human-and-script interface to the Workbench control plane, and — with no public OpenAPI — it is the
+  most complete published description of what the Workbench API can do. 153 documented command paths
+  across 21 top-level groups.
+version:
+  latest_supported: 0.422.514
+  oldest_supported: 0.421.0
+  source: https://workbench.verily.com/api/axon/cli-version
+  probed: '2026-09-02'
+  http_status: 200
+  note: >-
+    Verily publishes the supported CLI version window as a live, unauthenticated JSON endpoint, along
+    with a SHA-256 checksum of the current artifact. The wsm service separately reports
+    `oldestSupportedCliVersion: 0.149.0` at https://workbench.verily.com/api/wsm/version.
+install:
+  methods:
+  - type: script
+    command: 'curl -L https://storage.googleapis.com/bkt-workbench-artifacts/download-install.sh | bash && export SUPPRESS_GCLOUD_CREDS_WARNING=true'
+    note: The documented default. Optionally followed by `sudo mv wb /usr/local/bin`.
+  - type: pinned-version
+    command: 'export WORKBENCH_CLI_VERSION=0.418.0'
+    note: Set before running the install script to pin a specific release.
+  - type: manual
+    artifacts:
+    - https://storage.googleapis.com/bkt-workbench-artifacts/{VERSION}/workbench-cli.tar
+    - https://storage.googleapis.com/bkt-workbench-artifacts/{VERSION}/workbench-cli.sha256sum
+  - type: docker
+    image_host: us-west1-docker.pkg.dev
+    image_name: oneverily-images
+    tag: latest
+    source: https://workbench.verily.com/api/axon/version
+  platforms: [macos, linux]
+  prerequisites: [Java 17, gcloud SDK, jq]
+  registry: none
+  note: >-
+    No Homebrew tap, npm package or PyPI package. Distribution is a GCS bucket only, so there is no
+    registry metadata endpoint that dates a release.
+command_groups:
+- group: wb auth
+  commands: [login, logout, revoke, status, print-access-token]
+  purpose: Google-identity authentication and access-token retrieval.
+- group: wb config
+  commands: [get, set, list]
+  keys: [server, workspace, organization, format, browser, image, logging, resource-limit, default-resource-id, utility-mode, wb-path, aws-vault-path, cache-with-aws-vault]
+  purpose: Client configuration, including which Workbench server the CLI talks to.
+- group: wb server
+  commands: [status, list-regions, set]
+  purpose: Select and inspect the Workbench control-plane server.
+- group: wb organization
+  commands: [create, describe, list, update, group list, role grant, role list, role revoke, user invite, user list, user describe, user enable, user disable, user revoke, user archive]
+  purpose: Tenant-level administration.
+- group: wb pod
+  commands: [create gcp, create aws, list, delete, update, role grant, role list, role revoke, user]
+  purpose: Billing pod management (a pod links a cloud billing account to workspaces).
+- group: wb folder
+  commands: [create, describe, list, update, delete, tree]
+  purpose: Hierarchical grouping of workspaces.
+- group: wb workspace
+  commands: [create, describe, list, set, update, delete, access, lock, unlock, configure-aws, role grant, role list, role revoke]
+  purpose: Workspace lifecycle and access control.
+- group: wb resource
+  commands: [create, add-ref, describe, list, update, delete, mount, unmount, check-access, credentials, open-console, iam-policy, resolve]
+  resource_types: [gcs-bucket, gcs-object, bq-dataset, bq-table, git-repo, dataproc-cluster, aurora-database, s3-external-bucket, s3-storage-folder, ecr-external-repository, gcp-notebook, ec2]
+  purpose: Controlled and referenced cloud resources inside a workspace.
+- group: wb group
+  commands: [create, describe, list, update, migrate, delete, role grant, role list, role revoke, role update-expiration]
+  purpose: Workbench group membership and time-bound role grants.
+- group: wb app
+  commands: [create, launch, stop, delete, logs, update, config create, config describe, config list, config delete]
+  purpose: Cloud application instances (JupyterLab, RStudio, SAS Viya, custom apps).
+- group: wb workflow
+  commands: [list, delete, job run, job batch, job list, job describe, job task, job cancel]
+  purpose: Workflow submission and job control.
+- group: wb cromwell
+  purpose: Cromwell/WDL workflow engine integration.
+- group: wb nextflow
+  purpose: Nextflow workflow engine integration.
+- group: wb notebook
+  commands: [launch, stop]
+  purpose: Notebook instances.
+- group: wb cluster
+  commands: [start]
+  purpose: Analysis cluster control.
+- group: wb data-explorer
+  commands: [underlay reload]
+  purpose: Data Explorer / cohort-building underlays.
+- group: wb bq
+  purpose: Passthrough to BigQuery with workspace credentials.
+- group: wb gcloud
+  purpose: Passthrough to the gcloud SDK with workspace credentials.
+- group: wb gsutil
+  purpose: Passthrough to gsutil with workspace credentials.
+- group: wb git
+  purpose: Git operations against workspace-linked repositories.
+- group: wb security
+  commands: [ssh-key add, ssh-key generate, ssh-key get]
+  purpose: SSH key management for workspace access.
+- group: wb utility
+  commands: [list]
+  purpose: Utility-mode helpers.
+key_flows:
+- name: First run
+  steps: ['wb auth login', 'wb server set', 'wb workspace create', 'wb workspace set']
+- name: Attach data and analyze
+  steps: ['wb resource add-ref bq-dataset', 'wb app launch', 'wb notebook launch']
+- name: Run a workflow
+  steps: ['wb workflow job run', 'wb workflow job list', 'wb workflow job describe', 'wb workflow job cancel']

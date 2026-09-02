@@ -1,0 +1,39 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/
+name: Verily Workbench — rate limits
+limit_count: 0
+headers: []
+exhaustion_status_code: unknown
+note: >-
+  Verily publishes no rate limits for the Workbench API. The full support site was searched — the CLI
+  reference, all guides, the references section and the troubleshooting page — and neither "rate limit",
+  "quota", "throttl" nor "429" appears. No RateLimit-*, X-RateLimit-* or Retry-After header is documented,
+  and none could be observed on the unauthenticated /status and /version endpoints, which return no
+  rate-limit headers. An honest zero: the limits may well exist server-side, but a consumer has no way to
+  learn them before hitting them.
+related_quotas:
+- scope: account
+  limit: 5 workspaces
+  applies_to: Standard (free) tier
+  note: >-
+    A product entitlement, not an API rate limit. Recorded here because it is the only published numeric
+    ceiling on Workbench usage.
+  source: https://verily.com/newsroom/verily-launches-free-version-of-its-pre-exchange-and-workbench-solutions-powering-precision-health-ai-and-discovery
+- scope: client
+  limit: 'wb config set resource-limit'
+  note: >-
+    A client-side configurable cap in the CLI, set by the caller. Not a server-enforced limit.
+  source: https://support.workbench.verily.com/docs/references/cli_reference/
+- scope: downstream
+  limit: Google Cloud and AWS service quotas
+  note: >-
+    Workbench provisions resources into the customer's own cloud project or account, so the operative
+    limits on resource creation are the cloud provider's quotas, not Verily's.
+probes:
+- url: https://workbench.verily.com/api/axon/cli-version
+  status: 200
+  rate_limit_headers_observed: none
+- url: https://workbench.verily.com/api/wsm/status
+  status: 200
+  rate_limit_headers_observed: none

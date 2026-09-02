@@ -1,0 +1,49 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/guides/admin/billing_admin_errors/, https://support.workbench.verily.com/docs/references/troubleshooting/
+name: Verily Workbench — documented errors
+format: prose
+rfc9457: false
+error_count: 1
+summary: >-
+  Verily publishes no error-code registry and no error envelope schema for the Workbench API. There is no
+  numeric or symbolic code space to catalog. What exists is a single documented failure condition,
+  described in prose in the admin guide as a UI alert, plus a general troubleshooting page. This file
+  records that honestly rather than deriving a catalog from an OpenAPI, because the spec endpoints are
+  gated behind HTTP 403 and there are no 4xx/5xx response definitions to read.
+envelope:
+  documented: false
+  content_type: unknown
+  fields: []
+problem_types:
+- id: invalid-billing-account-attached-to-workspace
+  title: Invalid billing account attached to workspace
+  http_status: unknown
+  audience_variants:
+  - audience: pod owner
+    message: 'create a Cloud billing account and link it to their billing pod'
+  - audience: pod user
+    message: 'contact their billing administrator to create a Cloud billing account'
+  cause: >-
+    The billing pod linked to the workspace has no active, properly connected cloud billing account —
+    either the billing information became inactive or it was disconnected from the pod.
+  impact:
+  - The Resources, Apps and Workflows tabs are disabled.
+  - Workspace functionality is restricted until billing is resolved.
+  - Data loss may occur if a valid payment method is not added.
+  remediation:
+  - audience: pod owner
+    action: Follow the links in the alert to create a new cloud billing account and connect it to the billing pod.
+  - audience: pod user
+    action: Ask the billing administrator to create and link a cloud billing account to the pod.
+  source: https://support.workbench.verily.com/docs/guides/admin/billing_admin_errors/
+  surface: UI alert, not an API response
+other_surfaces:
+- name: Troubleshooting guide
+  url: https://support.workbench.verily.com/docs/references/troubleshooting/
+  note: Task-level troubleshooting prose; no error codes.
+gaps:
+- No error-code registry.
+- No published error envelope or Problem Details (RFC 9457) support.
+- No mapping between documented failures and HTTP status codes.
+- No 4xx/5xx response definitions available, because the OpenAPI is not served publicly.

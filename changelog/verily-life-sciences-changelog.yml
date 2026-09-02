@@ -1,0 +1,77 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/release_notes/
+name: Verily Workbench — release notes
+scheme: dated
+versioned: false
+note: >-
+  Verily publishes dated product release notes for Workbench, not semantic API versions. The notes cover
+  the product surface (UI, CLI, cloud apps, governance policies); they do not call out breaking REST API
+  changes, because there is no publicly documented REST contract to break. Per-service build numbers are
+  published separately at /api/<service>/version. The entries below are the recent window as read on
+  2026-09-02; the page carries a longer history.
+current_service_builds:
+  wsm: 0.0.1014
+  axon: 0.0.481
+  user: 1.1.583
+  probed: '2026-09-02'
+  source: https://workbench.verily.com/api/{wsm,axon,user}/version
+entries:
+- date: '2026-07-27'
+  title: Region policy supported on AWS-backed data collections
+  breaking: false
+  highlights: [Region policies now apply to AWS data resources.]
+- date: '2026-06-29'
+  title: Nextflow on GCP-backed workspaces
+  breaking: false
+  highlights: [Create and execute Nextflow workflows from the UI and the CLI on GCP-backed workspaces.]
+- date: '2026-06-29'
+  title: Restrict workspace access
+  breaking: false
+  highlights: [Administrators can lock a workspace and downgrade user permissions when suspicious activity is detected.]
+- date: '2026-06-10'
+  title: In-app instance logs
+  breaking: false
+  highlights: [Application instance logs are viewable and exportable for both AWS and GCP cloud apps.]
+- date: '2026-06-05'
+  title: Centralized secret management for Workbench cloud apps
+  breaking: false
+  highlights: [Custom apps support secure storage of keys, passwords and tokens.]
+- date: '2026-06-05'
+  title: SAS Viya Analytics Pro apps available
+  breaking: false
+  highlights: [SAS Viya Analytics Pro made available to All of Us researchers inside Workbench.]
+- date: '2026-05-22'
+  title: Workbench AI apps
+  breaking: false
+  highlights: [New JupyterLab app type using generative AI for data querying, dashboard creation and workflow management.]
+- date: '2026-05-15'
+  title: Batch job support for AWS HealthOmics
+  breaking: false
+  highlights: [Submit multiple workflow runs with different inputs from a CSV file.]
+- date: '2026-05-15'
+  title: Multi-version support for Data Explorer underlays
+  breaking: false
+  highlights: [Select a specific data collection version when creating a cohort.]
+- date: '2026-04-23'
+  title: Version binding for data collections
+  breaking: false
+  highlights: [Prevents mixing resources from different data collection versions.]
+- date: '2026-04-20'
+  title: Claude and Gemini available in cloud apps
+  breaking: false
+  highlights: [Pre-installed AI coding and command-line assistants in Workbench cloud apps.]
+- date: '2026-04-09'
+  title: Bucket browsing within a VPC
+  breaking: false
+  highlights: [Administrators can enable file browsing in the UI for workspaces protected by a perimeter policy.]
+earlier_notable:
+- title: Terraform provider released
+  breaking: false
+  highlights: ['Workbench resources (workspaces, data collections and more) manageable as infrastructure-as-code.']
+- title: Data Discovery renamed Data Exchange
+  breaking: true
+  highlights: [A product-surface rename; consumers of the old name are affected.]
+- title: Workbench generally available on AWS
+  breaking: false
+  source: https://www.businesswire.com/news/home/20260414244955/en/Verily-Workbench-Now-Available-on-AWS

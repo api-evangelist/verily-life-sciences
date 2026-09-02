@@ -1,0 +1,90 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/references/cli_reference/wb/auth/, https://github.com/verily-src/terraform-provider-workbench
+docs: https://support.workbench.verily.com/docs/references/cli_reference/wb/auth/
+name: Verily Workbench — authentication profile
+summary: >-
+  Verily Workbench delegates identity entirely to Google. There is no Workbench-issued API key, no
+  Workbench developer console that mints credentials, and no self-serve token page. Every caller
+  authenticates as a Google identity (Gmail or Google Workspace) or as an impersonated Google service
+  account, and presents the resulting token as a bearer token to the control-plane API. This profile is
+  assembled from the CLI reference and from Verily's own open-source Terraform provider, whose generated
+  clients name the security schemes the API declares; it is NOT derived from a published OpenAPI, because
+  Verily serves none publicly (the spec endpoints return HTTP 403).
+api_base: https://workbench.verily.com/api
+security_schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearer_format: Google OAuth 2.0 access token or Google-signed ID token
+  evidence: >-
+    Declared as `BearerAuthScopes = "bearerAuth.Scopes"` in the oapi-codegen generated clients at
+    internal/openapi/wsm/types.go and internal/openapi/user/types.go in
+    github.com/verily-src/terraform-provider-workbench — code generated from Verily's internal OpenAPI.
+  applies_to: [/api/wsm, /api/user]
+- name: authorization
+  type: apiKey
+  in: header
+  header: Authorization
+  evidence: >-
+    Declared as `AuthorizationScopes = "authorization.Scopes"` in the same generated clients. Recorded as
+    published; the exact distinction from bearerAuth is not documented publicly.
+  applies_to: [/api/wsm, /api/user]
+identity_providers:
+- provider: Google (Gmail / Google Workspace)
+  note: >-
+    "Self-serve account creation via Gmail or Google identity" is the documented path onto the free
+    Standard tier.
+  source: https://verily.com/newsroom/verily-launches-free-version-of-its-pre-exchange-and-workbench-solutions-powering-precision-health-ai-and-discovery
+- provider: Google Cloud service account (impersonation)
+  note: >-
+    The Terraform provider exposes `impersonate_service_account` (a service-account email impersonated via
+    Application Default Credentials) and `use_id_token` (send a Google ID token rather than an access
+    token; documented as false for local development).
+  source: https://github.com/verily-src/terraform-provider-workbench/blob/main/docs/index.md
+client_flows:
+- client: wb CLI
+  commands:
+  - command: wb auth login
+    note: Interactive browser-based Google login.
+  - command: wb auth status
+    note: Reports the currently authenticated identity.
+  - command: wb auth print-access-token
+    note: Prints the bearer token the CLI holds — the documented way to call the REST API directly.
+  - command: wb auth revoke
+    note: Revokes the stored credential.
+  prerequisite: gcloud SDK installed (documented CLI prerequisite).
+- client: Terraform provider verily-src/workbench
+  configuration:
+    host: https://workbench.verily.com
+    impersonate_service_account: <service account email>
+    use_id_token: true
+- client: SSH keys
+  note: >-
+    Separate from API authentication. `wb security ssh-key generate|add|get` manages keys used to reach
+    workspace compute, not the control-plane API.
+scopes:
+  documented: false
+  note: >-
+    No OAuth scope reference page is published, and the spec endpoints that would carry the scope names
+    are 403. `scopes/` is therefore not emitted rather than being filled with guesses.
+public_unauthenticated_endpoints:
+- url: https://workbench.verily.com/api/axon/cli-version
+  status: 200
+  note: Returns supported CLI version window and artifact checksum.
+- url: https://workbench.verily.com/api/wsm/version
+  status: 200
+- url: https://workbench.verily.com/api/axon/version
+  status: 200
+- url: https://workbench.verily.com/api/user/version
+  status: 200
+- url: https://workbench.verily.com/api/wsm/status
+  status: 200
+- url: https://workbench.verily.com/api/axon/status
+  status: 200
+- url: https://workbench.verily.com/api/user/status
+  status: 200
+gaps:
+- No published OAuth scope list.
+- No API-key or personal-access-token option; every integration needs a Google identity.
+- No /.well-known/openid-configuration or /.well-known/oauth-authorization-server on any Verily host.

@@ -64,5 +64,33 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Verily Life Sciences is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/verily-life-sciences_stock/
+Verily Life Sciences is Alphabet's precision health company, building the Verily Pre platform — an
+AI-native data platform for health research and care whose data layer, Syntax, is a FHIR-native
+common data model. Its developer-facing surface is **Verily Workbench**, an enterprise Trusted
+Research Environment that runs analysis workspaces on Google Cloud and AWS.
+
+## What Verily publishes
+
+- A control-plane REST API at `https://workbench.verily.com/api` — the `wsm` (Workspace Manager),
+  `axon` and `user` services. `/status` and `/version` on each are unauthenticated and live.
+- The first-party **`wb` CLI** — 153 documented command paths across 21 groups
+  ([reference](https://support.workbench.verily.com/docs/references/cli_reference/)).
+- A **Terraform provider**, [`verily-src/workbench`](https://registry.terraform.io/providers/verily-src/workbench/latest),
+  which is a genuine API client: its `internal/openapi/` packages are oapi-codegen clients generated
+  from Verily's OpenAPI.
+- Dated [release notes](https://support.workbench.verily.com/docs/release_notes/) and a live
+  supported-CLI-version window at `/api/axon/cli-version`.
+- Open-source FHIR tooling: [fhirpath-go](https://github.com/verily-src/fhirpath-go) and
+  [fsh-lint](https://github.com/verily-src/fsh-lint).
+- Named commercial tiers — Standard (free), Professional, Enterprise — with no published prices.
+
+## What it does not
+
+The OpenAPI that describes the Workbench API exists (the generated clients prove it) but is not
+served: every spec path returns **HTTP 403** to anonymous callers. There is no MCP server, no A2A
+agent card, no `/.well-known/` document on any host, no security.txt or vulnerability disclosure
+program, no documented rate limits, no idempotency contract, no error-code registry, and no hosted
+status page.
+
+- <https://verily.com/>
+- <https://support.workbench.verily.com/docs/>

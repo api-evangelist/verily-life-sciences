@@ -1,0 +1,65 @@
+generated: '2026-09-02'
+method: searched
+source: https://verily.com/newsroom/verily-launches-free-version-of-its-pre-exchange-and-workbench-solutions-powering-precision-health-ai-and-discovery
+name: Verily Workbench — plans and pricing
+plan_count: 3
+currency: USD
+pricing_page_published: false
+note: >-
+  Verily names its Workbench tiers publicly but publishes no prices for any of them. The product page
+  (https://verily.com/solutions/pre-platform/workbench) carries no pricing at all — only a "Talk to an
+  expert" contact form — and there is no /pricing page on verily.com. The tier names and free-tier
+  contents below come from Verily's own 2026-02-18 launch announcement. Cloud compute and storage are
+  billed separately by the customer's own GCP or AWS billing account, which Workbench links through a
+  "billing pod"; Verily does not resell that.
+plans:
+- name: Standard
+  price: 0
+  currency: USD
+  billing_period: none
+  self_serve: true
+  included:
+  - Self-serve account creation with a Gmail or Google Workspace identity
+  - Access to select data collections (Project Baseline Health Study – Limited, and PRESCO)
+  - Verily Workbench collaboration, cohorting, visualization and analytics
+  - Instant access on agreeing to the Data Use Agreement
+  limits:
+    workspaces: 5
+    custom_applications: not included
+    own_data_upload: not included
+    additional_workspaces: not included
+  note: Announced 2026-02-18 as a free tier for individual researchers.
+- name: Professional
+  price: null
+  currency: USD
+  billing_period: unknown
+  self_serve: unknown
+  included:
+  - Configuring custom applications
+  - Creating additional workspaces beyond the Standard limit
+  - Uploading your own data
+  note: >-
+    Named a "paid Professional license" in the launch announcement. No price is published anywhere on
+    verily.com. price is null because Verily states none — not because it was not checked.
+- name: Enterprise
+  price: null
+  currency: USD
+  billing_period: unknown
+  self_serve: false
+  included:
+  - Enterprise Trusted Research Environment deployment
+  - Analysis plane in the customer's own GCP or AWS account
+  - Governance policies (region, network, perimeter, app, group, required-form)
+  contact: https://verily.com/solutions/pre-platform/workbench/contact
+  upgrade_contact: https://verily.com/solutions/pre-platform/workbench/upgrade-contact
+  note: Sales-gated. No published price.
+separate_costs:
+- item: Cloud compute and storage
+  billed_by: The customer's own Google Cloud or AWS billing account, linked to Workbench through a billing pod
+  source: https://support.workbench.verily.com/docs/getting_started/billing_setup/
+trial:
+  offered: true
+  note: >-
+    Release notes state that "new trial users are on a time-limited trial/demo license". The length of the
+    trial is not published.
+  source: https://support.workbench.verily.com/docs/release_notes/

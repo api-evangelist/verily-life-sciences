@@ -1,0 +1,82 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/release_notes/, https://workbench.verily.com/api/axon/cli-version, https://support.workbench.verily.com/docs/guides/cli/cli_install_and_run/
+name: Verily Workbench — lifecycle, versioning and support posture
+summary: >-
+  Verily runs Workbench as a continuously released product with dated release notes. It publishes no API
+  versioning policy, no deprecation or sunset policy for the REST surface, no SLA, and no hosted status
+  page. What it does publish — and this is unusually good for a provider with no public spec — is a live,
+  machine-readable supported-version window for its CLI client, plus per-service build versions and
+  unauthenticated health endpoints.
+api_versioning:
+  policy_published: false
+  scheme: none observed
+  note: No version segment appears in the /api/<service> base paths, and no versioning policy page exists.
+deprecation_policy:
+  published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  rfc8594: unknown
+  note: >-
+    No deprecation or sunset policy is published for the API. No `Deprecation` pointer is emitted in
+    apis.yml, because a client version-support floor is not an API deprecation policy.
+client_support_window:
+  published: true
+  machine_readable: true
+  endpoint: https://workbench.verily.com/api/axon/cli-version
+  http_status: 200
+  probed: '2026-09-02'
+  oldest_supported_cli: 0.421.0
+  latest_supported_cli: 0.422.514
+  artifact_checksum_published: true
+  additional:
+    wsm_oldest_supported_cli_version: 0.149.0
+    wsm_endpoint: https://workbench.verily.com/api/wsm/version
+  note: >-
+    Verily publishes the floor and ceiling of supported CLI versions as JSON that a client can read at
+    runtime, together with a SHA-256 checksum of the distributed artifact. This is a real, dated,
+    provider-published support signal; it just applies to the CLI, not to the REST surface.
+service_builds:
+  probed: '2026-09-02'
+  services:
+  - service: wsm
+    build: 0.0.1014
+    upstream_repo: https://github.com/verily-src/terra-service-ws-manager
+  - service: axon
+    build: 0.0.481
+    upstream_repo: https://github.com/verily-src/terra-axon-server
+  - service: user
+    build: 1.1.583
+status_page:
+  hosted_status_page: false
+  probed:
+  - url: https://status.verily.com/
+    status: DNS does not resolve
+  - url: https://trust.verily.com/
+    status: DNS does not resolve
+  - url: https://workbench.verily.com/status
+    status: 200
+    result: SPA HTML shell, not a status page
+  health_endpoints:
+  - url: https://workbench.verily.com/api/wsm/status
+    status: 200
+  - url: https://workbench.verily.com/api/axon/status
+    status: 200
+  - url: https://workbench.verily.com/api/user/status
+    status: 200
+  cli: wb server status
+  note: >-
+    Machine-readable per-service health exists, but there is no human-facing status page and no incident
+    history. No `StatusPage` pointer is emitted.
+sla:
+  published: false
+  note: >-
+    Positioned as an "enterprise-grade Trusted Research Environment"; any SLA is presumably contractual
+    and is not published.
+release_cadence:
+  observed: continuous, with dated release notes roughly twice a month through 2026
+  changelog: changelog/verily-life-sciences-changelog.yml
+deprecated_operations: []
+note_on_derivation: >-
+  deprecated_operations is empty because there is no public OpenAPI to derive `deprecated: true`
+  operations from — not because Verily has confirmed none exist.

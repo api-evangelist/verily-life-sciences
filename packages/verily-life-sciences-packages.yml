@@ -1,0 +1,115 @@
+generated: '2026-09-02'
+method: searched
+source: https://registry.terraform.io/providers/verily-src/workbench/latest, https://proxy.golang.org, https://github.com/verily-src, https://support.workbench.verily.com/docs/guides/cli/cli_install_and_run/
+name: Verily Life Sciences — first-party packages and client libraries
+summary: >-
+  Verily does not publish an npm or PyPI SDK for the Workbench API. Its first-party, machine-installable
+  distribution is a Terraform provider (a real API client for the Workbench control plane, generated from
+  the internal OpenAPI with oapi-codegen), a Terraform module for the AWS analysis plane, the `wb` CLI
+  distributed as a signed tarball from a Google Cloud Storage bucket, and two open-source Go libraries for
+  FHIR tooling. Registry searches for `verily` on npm and PyPI returned only unrelated third-party packages
+  (npm `verily` is a 2014 semver toy; PyPI `workbench-cli` belongs to SuperCowPowers) — neither is Verily's.
+registries_checked:
+- registry: npm
+  query: verily
+  result: no first-party package found
+- registry: pypi
+  queries: [verily, verily-workbench, workbench-cli]
+  result: no first-party package found (name collisions belong to other publishers)
+- registry: pkg.go.dev / proxy.golang.org
+  result: three first-party Go modules found
+- registry: registry.terraform.io
+  result: one provider + one module found
+- registry: maven-central / nuget / rubygems / crates.io / packagist
+  result: not searched — Verily publishes no Java, .NET, Ruby, Rust or PHP client for this API
+packages:
+- name: verily-src/workbench
+  language: terraform
+  registry: terraform
+  official: true
+  api_client: true
+  version: 0.0.4
+  published: '2026-01-22'
+  url: https://registry.terraform.io/providers/verily-src/workbench/latest
+  source: https://github.com/verily-src/terraform-provider-workbench
+  note: >-
+    The Terraform provider for Verily Workbench. It is a genuine client of the Workbench control-plane
+    REST API — internal/openapi/wsm and internal/openapi/user are oapi-codegen v1.16.3 generated clients
+    against `{host}/api/wsm` and `{host}/api/user`, with `bearerAuth` and `authorization` security
+    schemes. Manages workspaces, folders, data collections and versions, controlled GCS buckets, groups
+    and workspace/group IAM bindings, members and policies. Four versions published (0.0.1 – 0.0.4).
+- name: github.com/verily-src/terraform-provider-workbench
+  language: go
+  registry: go
+  official: true
+  api_client: true
+  version: v0.0.4
+  published: '2026-01-22'
+  url: https://pkg.go.dev/github.com/verily-src/terraform-provider-workbench
+  source: https://github.com/verily-src/terraform-provider-workbench
+  note: The Go module behind the Terraform provider; same artifact, resolved through proxy.golang.org.
+- name: verily-src/workbench-analysis-plane/aws
+  language: terraform
+  registry: terraform
+  official: true
+  api_client: false
+  version: 0.3.16
+  published: '2026-09-02'
+  url: https://registry.terraform.io/modules/verily-src/workbench-analysis-plane/aws/latest
+  source: https://github.com/verily-src/terraform-aws-workbench-analysis-plane
+  note: >-
+    Terraform module that stands up the Workbench Analysis Plane inside a customer's own AWS account.
+    Infrastructure, not an API client. Actively released — the version above published the same day this
+    profile was written.
+- name: github.com/verily-src/fhirpath-go
+  language: go
+  registry: go
+  official: true
+  api_client: false
+  version: v1.5.0
+  published: '2025-11-20'
+  url: https://pkg.go.dev/github.com/verily-src/fhirpath-go
+  source: https://github.com/verily-src/fhirpath-go
+  note: >-
+    Go implementation of the HL7 FHIRPath specification, implemented directly against the google/fhir
+    protobuf definitions. A domain library, not a Workbench API SDK, but first-party Verily open source
+    and the clearest evidence of Verily's FHIR-native posture.
+- name: github.com/verily-src/fsh-lint
+  language: go
+  registry: go
+  official: true
+  api_client: false
+  version: v0.1.0
+  published: '2025-05-30'
+  url: https://pkg.go.dev/github.com/verily-src/fsh-lint
+  source: https://github.com/verily-src/fsh-lint
+  note: >-
+    A linter for FHIR Shorthand (FSH) files. Also shipped as a GitHub Action
+    (github.com/verily-src/fsh-lint-action). One tagged release; last pushed 2025-06-03.
+- name: workbench-cli (wb)
+  language: java
+  registry: cdn
+  official: true
+  api_client: true
+  version: 0.422.514
+  published: null
+  url: https://storage.googleapis.com/bkt-workbench-artifacts/download-install.sh
+  source: https://support.workbench.verily.com/docs/guides/cli/cli_install_and_run/
+  note: >-
+    The `wb` CLI. Distributed as a tarball from the public GCS bucket gs://bkt-workbench-artifacts, not
+    from any package registry, so there is no registry metadata endpoint to date the release. The version
+    above is `latestSupportedCli` read live from https://workbench.verily.com/api/axon/cli-version on
+    2026-09-02 (HTTP 200); that endpoint also publishes `oldestSupportedCli: 0.421.0` and a SHA-256
+    checksum for the current artifact. `published:` is null because the provider dates no release — the
+    install script always floats to latest unless WORKBENCH_CLI_VERSION is pinned by the caller.
+- name: verily-src/gcp-actions, verily-src/setup-java, verily-src/fsh-lint-action
+  language: github-actions
+  registry: github
+  official: true
+  api_client: false
+  version: null
+  published: null
+  note: >-
+    First-party GitHub Actions published by the verily-src org. Untagged in the GitHub Marketplace sense
+    and not client libraries; recorded for completeness. version/published are null because no release
+    metadata is published for them.

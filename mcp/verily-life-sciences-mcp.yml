@@ -1,0 +1,31 @@
+generated: '2026-09-02'
+method: none
+source: searched verily.com, support.workbench.verily.com, github.com/verily-src, github.com/verilylifesciences on 2026-09-02
+name: Verily Life Sciences — MCP server
+status: none-found
+summary: >-
+  Verily publishes no Model Context Protocol server for the Workbench API or any other product. No
+  mcp.verily.com host resolves, no MCP repository exists in either GitHub organization
+  (verily-src, verilylifesciences), and no /.well-known/ discovery document is served on any Verily host.
+  No candidate tool list is derived either: deriving MCP tools requires an OpenAPI to bind them to, and
+  the Workbench spec endpoints are gated behind HTTP 403 (see conformance/ and the x-coverage note in
+  apis.yml). No MCPServer pointer is emitted — a candidate manifest is not an agent surface.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+adjacent_agent_surfaces:
+- surface: Verily Workbench AI apps
+  note: >-
+    Release notes for 2026-05-22 announce "Workbench AI apps" (a JupyterLab app type using generative AI)
+    and for 2026-04-20 that Claude and Gemini are pre-installed in Workbench cloud apps. These are agents
+    running INSIDE Workbench, not an MCP surface Verily exposes to outside agents.
+  source: https://support.workbench.verily.com/docs/release_notes/
+- surface: '`wb` CLI'
+  note: >-
+    The closest thing to an agent-callable surface Verily ships today. It is a local Java binary, not a
+    remote endpoint, and it requires an interactive Google login before any command runs.
+  source: https://support.workbench.verily.com/docs/references/cli_reference/

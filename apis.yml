@@ -1,18 +1,69 @@
 aid: verily-life-sciences
 name: Verily Life Sciences
-description: 'Verily Life Sciences is a company surfaced via the API Evangelist harvest backlog (source:
-  secondary-market) and added to the network as a stub for full-pipeline profiling.'
+description: 'Verily Life Sciences is Alphabet''s precision health company, building the Verily
+  Pre platform — an AI-native data platform for health research and care that ingests multimodal
+  clinical, genomic and device data and organizes it with Syntax, a FHIR-native common data model.
+  Its developer-facing surface is Verily Workbench, an enterprise Trusted Research Environment that
+  runs analysis workspaces on Google Cloud and AWS. Workbench exposes a control-plane REST API at
+  workbench.verily.com/api (the wsm workspace-manager, axon and user services), a first-party `wb`
+  command line interface, and a published Terraform provider (verily-src/workbench) for managing
+  workspaces, folders, data collections, groups and IAM as code. Verily also publishes open-source
+  FHIR tooling on GitHub, including fhirpath-go and the fsh-lint FHIR Shorthand linter. No public
+  OpenAPI description is served: the API''s spec endpoints return HTTP 403 at the edge.'
 url: https://raw.githubusercontent.com/api-evangelist/verily-life-sciences/refs/heads/main/apis.yml
+image: https://assets.verily.com/transform/21410f74-6a33-4c78-a6a0-a7a6f19afabe/OpenGraph_1200x628_Homepage
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-02'
 modified: '2026-09-02'
 tags:
 - Company
-apis: []
+- Health
+- Life Sciences
+- Precision Health
+- Clinical Research
+- Biomedical Data
+- FHIR
+- Research Data Platform
+- Trusted Research Environment
+- Genomics
+- Cloud Infrastructure
+- Terraform
+apis:
+- aid: verily-life-sciences-workbench-api
+  name: Verily Workbench API
+  description: 'The Verily Workbench control-plane REST API. Three services are reachable under the
+    workbench.verily.com/api base path: `wsm` (Workspace Manager — workspaces, folders, controlled
+    and referenced cloud resources, IAM roles and policies), `axon` (CLI distribution, supported CLI
+    version window, workspace orchestration) and `user` (user, group and organization management).
+    The API is described by OpenAPI internally — Verily''s own open-source Terraform provider ships
+    oapi-codegen generated clients for the wsm and user services — but the spec endpoints
+    (/v3/api-docs, /openapi.json, /openapi.yml, swagger-ui) all return HTTP 403 to anonymous
+    callers. The unauthenticated /status and /version endpoints on each service are public.'
+  humanURL: https://support.workbench.verily.com/docs/
+  baseURL: https://workbench.verily.com/api
+  tags:
+  - Workspaces
+  - Research Data
+  - IAM
+  - Cloud Resources
+  - Workflows
+  properties:
+  - type: Documentation
+    url: https://support.workbench.verily.com/docs/
+  - type: GettingStarted
+    url: https://support.workbench.verily.com/docs/getting_started/
+  - type: CLI
+    url: cli/verily-life-sciences-cli.yml
+  - type: Authentication
+    url: authentication/verily-life-sciences-authentication.yml
+  - type: Conventions
+    url: conventions/verily-life-sciences-conventions.yml
+  - type: DataModel
+    url: data-model/verily-life-sciences-data-model.yml
+  - type: ErrorCatalog
+    url: errors/verily-life-sciences-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +71,75 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/verily-life-sciences_stock/
+  url: https://verily.com/
+- type: DeveloperPortal
+  url: https://support.workbench.verily.com/
+- type: Login
+  url: https://workbench.verily.com/
+- type: Documentation
+  url: https://support.workbench.verily.com/docs/
+- type: APIReference
+  url: https://support.workbench.verily.com/docs/references/
+- type: GettingStarted
+  url: https://support.workbench.verily.com/docs/getting_started/
+- type: Support
+  url: https://support.workbench.verily.com/docs/contact/
+- type: Blog
+  url: https://verily.com/perspectives
+- type: GitHubOrganization
+  url: https://github.com/verily-src
+- type: TermsOfService
+  url: https://verily.com/terms
+- type: PrivacyPolicy
+  url: https://verily.com/privacy-policy
+- type: TrustCenter
+  url: https://verily.com/security-trust
+- type: Pricing
+  url: plans/verily-life-sciences-plans-pricing.yml
+- type: Plans
+  url: plans/verily-life-sciences-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/verily-life-sciences-rate-limits.yml
+- type: Packages
+  url: packages/verily-life-sciences-packages.yml
+- type: SDKs
+  url: packages/verily-life-sciences-packages.yml
+- type: CLI
+  url: cli/verily-life-sciences-cli.yml
+- type: ChangeLog
+  url: changelog/verily-life-sciences-changelog.yml
+- type: Lifecycle
+  url: lifecycle/verily-life-sciences-lifecycle.yml
+- type: Authentication
+  url: authentication/verily-life-sciences-authentication.yml
+- type: Conventions
+  url: conventions/verily-life-sciences-conventions.yml
+- type: Conformance
+  url: conformance/verily-life-sciences-conformance.yml
+- type: DataModel
+  url: data-model/verily-life-sciences-data-model.yml
+- type: ErrorCatalog
+  url: errors/verily-life-sciences-problem-types.yml
+- type: DomainSecurity
+  url: security/verily-life-sciences-domain-security.yml
+- type: LLMsTxt
+  url: llms/verily-life-sciences-llms.txt
+x-enrichment:
+  date: '2026-09-02'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    Real first-party artifacts were found and captured (CLI, Terraform provider, release notes, plans,
+    trust page, live API health/version endpoints). The one wall hit was the OpenAPI itself: every spec
+    path on workbench.verily.com/api/{wsm,axon,user} returns HTTP 403 to anonymous callers, even though
+    Verily's own open-source Terraform provider ships oapi-codegen clients generated from that spec.
+  evidence:
+  - url: https://workbench.verily.com/api/wsm/v3/api-docs
+    status: 403
+  - url: https://workbench.verily.com/api/axon/cli-version
+    status: 200
+  checked: '2026-09-02'

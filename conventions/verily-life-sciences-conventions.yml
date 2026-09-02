@@ -1,0 +1,132 @@
+generated: '2026-09-02'
+method: searched
+source: https://support.workbench.verily.com/docs/, https://github.com/verily-src/terraform-provider-workbench
+name: Verily Workbench — API conventions and runtime semantics
+summary: >-
+  Cross-cutting semantics for the Verily Workbench control-plane API, assembled from the CLI reference,
+  the Terraform provider source and docs, and live probes of the public status/version endpoints. Several
+  dimensions are genuinely undocumented; they are recorded as unknown rather than guessed, because the
+  OpenAPI that would answer them returns HTTP 403 to anonymous callers.
+auth_style:
+  model: bearer token (Google OAuth access token or Google-signed ID token)
+  header: 'Authorization: Bearer <token>'
+  see: authentication/verily-life-sciences-authentication.yml
+base_path:
+  host: https://workbench.verily.com
+  services:
+  - path: /api/wsm
+    name: Workspace Manager
+    upstream: https://github.com/verily-src/terra-service-ws-manager
+  - path: /api/axon
+    name: Axon (orchestration, CLI distribution)
+    upstream: https://github.com/verily-src/terra-axon-server
+  - path: /api/user
+    name: User / group / organization service
+  note: >-
+    Base paths are read from Verily's own Terraform provider — internal/api/wsm.go builds the client base
+    as fmt.Sprintf("%s/api/wsm", host) — and confirmed by live 200 responses on each service's
+    /status and /version endpoints.
+versioning:
+  api_versioning: unknown
+  note: >-
+    No API version is documented and none appears in the base path. What Verily does publish is a
+    per-service build version at /api/<service>/version (wsm 0.0.1014, axon 0.0.481, user 1.1.583 as of
+    2026-09-02) and a supported-CLI version window. Whether the REST surface itself is versioned is not
+    stated anywhere public.
+  service_version_endpoints:
+  - https://workbench.verily.com/api/wsm/version
+  - https://workbench.verily.com/api/axon/version
+  - https://workbench.verily.com/api/user/version
+idempotency:
+  supported: unknown
+  header: null
+  note: >-
+    No idempotency key, no retry-safety statement, and no mention of the word in the CLI reference or any
+    guide. The Terraform provider ships its own client-side retry (internal/client/retry.go and
+    internal/provider/retry.go), which is a consumer working around the absence of a server contract, not
+    evidence of one. No Idempotency pointer is emitted.
+pagination:
+  style: unknown
+  note: >-
+    List commands exist across the CLI (`wb workspace list`, `wb resource list`, `wb group list`,
+    `wb workflow job list`, `wb organization user list`) but no page/cursor/limit parameters are
+    documented, and the spec is gated.
+error_envelope:
+  format: unknown
+  rfc9457: false
+  note: >-
+    No error schema is published. Documented errors are prose alerts in the UI (see
+    errors/verily-life-sciences-problem-types.yml), not a machine-readable envelope.
+rate_limit_signaling:
+  headers: []
+  note: No rate-limit headers or 429 semantics are documented. See rate-limits/.
+request_tracing:
+  request_id_header: unknown
+metadata_and_expansion:
+  supported: unknown
+health:
+  endpoints:
+  - path: /api/wsm/status
+    status: 200
+    body: empty
+  - path: /api/axon/status
+    status: 200
+    body: empty
+  - path: /api/user/status
+    status: 200
+    body: empty
+  cli: wb server status
+reversibility:
+  applicable: true
+  grade: documented
+  note: >-
+    Grade is `documented`, not `verified`: Workbench publishes real reversal operations across its write
+    surface, but states no time window for any of them. NEVER assume one — nothing in the docs bounds how
+    long a lock, a revoke or a delete can be undone, and delete is stated to be destructive.
+  operations:
+  - action: Lock a workspace
+    reversal: wb workspace unlock
+    window: not stated
+    note: >-
+      Added 2026-06-29 ("Restrict workspace access") so administrators can lock a workspace and downgrade
+      permissions on suspicion of misuse. A genuine reversible pair.
+    source: https://support.workbench.verily.com/docs/release_notes/
+  - action: Grant a role (workspace, group, organization, pod)
+    reversal: 'wb <scope> role revoke'
+    window: not stated
+    note: >-
+      `wb group role update-expiration` additionally makes a grant time-bound, which is the closest thing
+      Workbench has to a stated reversal window — but the expiry is caller-supplied, not a provider policy.
+    source: https://support.workbench.verily.com/docs/references/cli_reference/
+  - action: Invite / enable an organization user
+    reversal: 'wb organization user disable, wb organization user revoke, wb organization user archive'
+    window: not stated
+  - action: Mount a resource into a workspace
+    reversal: wb resource unmount
+    window: not stated
+  - action: Run a workflow job
+    reversal: wb workflow job cancel
+    window: not stated
+  - action: Authenticate
+    reversal: wb auth revoke
+    window: not stated
+  irreversible:
+  - action: wb workspace delete
+    note: >-
+      No undelete, restore or trash command exists in the CLI reference. The billing-error guide warns
+      that "data loss may occur if a valid payment method is not added", so loss of a workspace is
+      treated as terminal.
+  - action: wb resource delete / wb folder delete / wb workflow delete / wb pod delete
+    note: No restore counterpart is documented.
+dry_run_mode:
+  supported: partial
+  note: >-
+    Not offered by the REST API or the CLI. The Terraform provider gives the equivalent through
+    `terraform plan`, which is a client-side rehearsal of the same API calls — real, but a property of
+    Terraform rather than of the Workbench contract.
+cross_links:
+  authentication: authentication/verily-life-sciences-authentication.yml
+  errors: errors/verily-life-sciences-problem-types.yml
+  lifecycle: lifecycle/verily-life-sciences-lifecycle.yml
+  rate_limits: rate-limits/verily-life-sciences-rate-limits.yml
+  data_model: data-model/verily-life-sciences-data-model.yml

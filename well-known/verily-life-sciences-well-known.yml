@@ -1,0 +1,101 @@
+generated: '2026-09-02'
+method: probed
+source: direct HTTPS probe of each path on each host, 2026-09-02
+name: Verily Life Sciences — /.well-known/ probe
+summary: >-
+  Every named /.well-known/ path was probed on all three Verily hosts. Nothing was served. verily.com and
+  support.workbench.verily.com return a real 404 for every path. workbench.verily.com is a single-page
+  application whose catch-all answers HTTP 200 with the same 19,846-byte HTML shell for every path,
+  including /.well-known/agent-card.json — that is an SPA false positive, not a document, and it is
+  recorded as a miss. No WellKnown, SecurityTxt or AgentCard pointer is emitted, because no path returned
+  a real document.
+hosts:
+- host: verily.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    file: null
+- host: workbench.verily.com
+  note: >-
+    SPA catch-all. Every path below returned HTTP 200 with an identical 19,846-byte HTML application
+    shell (<!doctype html>), not a document. Treated as a miss on every path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    file: null
+    result: html-shell-not-a-document
+- host: support.workbench.verily.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    file: null
