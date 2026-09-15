@@ -1,15 +1,15 @@
 aid: verily-life-sciences
 name: Verily Life Sciences
-description: 'Verily Life Sciences is Alphabet''s precision health company, building the Verily
-  Pre platform — an AI-native data platform for health research and care that ingests multimodal
-  clinical, genomic and device data and organizes it with Syntax, a FHIR-native common data model.
-  Its developer-facing surface is Verily Workbench, an enterprise Trusted Research Environment that
-  runs analysis workspaces on Google Cloud and AWS. Workbench exposes a control-plane REST API at
-  workbench.verily.com/api (the wsm workspace-manager, axon and user services), a first-party `wb`
-  command line interface, and a published Terraform provider (verily-src/workbench) for managing
-  workspaces, folders, data collections, groups and IAM as code. Verily also publishes open-source
-  FHIR tooling on GitHub, including fhirpath-go and the fsh-lint FHIR Shorthand linter. No public
-  OpenAPI description is served: the API''s spec endpoints return HTTP 403 at the edge.'
+description: 'Verily Life Sciences is Alphabet''s precision health company, building the Verily Pre platform
+  — an AI-native data platform for health research and care that ingests multimodal clinical, genomic
+  and device data and organizes it with Syntax, a FHIR-native common data model. Its developer-facing
+  surface is Verily Workbench, an enterprise Trusted Research Environment that runs analysis workspaces
+  on Google Cloud and AWS. Workbench exposes a control-plane REST API at workbench.verily.com/api (the
+  wsm workspace-manager, axon and user services), a first-party `wb` command line interface, and a published
+  Terraform provider (verily-src/workbench) for managing workspaces, folders, data collections, groups
+  and IAM as code. Verily also publishes open-source FHIR tooling on GitHub, including fhirpath-go and
+  the fsh-lint FHIR Shorthand linter. No public OpenAPI description is served: the API''s spec endpoints
+  return HTTP 403 at the edge.'
 url: https://raw.githubusercontent.com/api-evangelist/verily-life-sciences/refs/heads/main/apis.yml
 image: https://assets.verily.com/transform/21410f74-6a33-4c78-a6a0-a7a6f19afabe/OpenGraph_1200x628_Homepage
 x-type: company
@@ -31,16 +31,16 @@ tags:
 - Cloud Infrastructure
 - Terraform
 apis:
-- aid: verily-life-sciences-workbench-api
+- aid: verily-life-sciences:verily-life-sciences-workbench-api
   name: Verily Workbench API
-  description: 'The Verily Workbench control-plane REST API. Three services are reachable under the
-    workbench.verily.com/api base path: `wsm` (Workspace Manager — workspaces, folders, controlled
-    and referenced cloud resources, IAM roles and policies), `axon` (CLI distribution, supported CLI
-    version window, workspace orchestration) and `user` (user, group and organization management).
-    The API is described by OpenAPI internally — Verily''s own open-source Terraform provider ships
-    oapi-codegen generated clients for the wsm and user services — but the spec endpoints
-    (/v3/api-docs, /openapi.json, /openapi.yml, swagger-ui) all return HTTP 403 to anonymous
-    callers. The unauthenticated /status and /version endpoints on each service are public.'
+  description: 'The Verily Workbench control-plane REST API. Three services are reachable under the workbench.verily.com/api
+    base path: `wsm` (Workspace Manager — workspaces, folders, controlled and referenced cloud resources,
+    IAM roles and policies), `axon` (CLI distribution, supported CLI version window, workspace orchestration)
+    and `user` (user, group and organization management). The API is described by OpenAPI internally —
+    Verily''s own open-source Terraform provider ships oapi-codegen generated clients for the wsm and
+    user services — but the spec endpoints (/v3/api-docs, /openapi.json, /openapi.yml, swagger-ui) all
+    return HTTP 403 to anonymous callers. The unauthenticated /status and /version endpoints on each service
+    are public.'
   humanURL: https://support.workbench.verily.com/docs/
   baseURL: https://workbench.verily.com/api
   tags:
@@ -132,11 +132,11 @@ x-enrichment:
 x-coverage:
   state: covered
   reason: null
-  detail: >-
-    Real first-party artifacts were found and captured (CLI, Terraform provider, release notes, plans,
-    trust page, live API health/version endpoints). The one wall hit was the OpenAPI itself: every spec
-    path on workbench.verily.com/api/{wsm,axon,user} returns HTTP 403 to anonymous callers, even though
-    Verily's own open-source Terraform provider ships oapi-codegen clients generated from that spec.
+  detail: 'Real first-party artifacts were found and captured (CLI, Terraform provider, release notes,
+    plans, trust page, live API health/version endpoints). The one wall hit was the OpenAPI itself: every
+    spec path on workbench.verily.com/api/{wsm,axon,user} returns HTTP 403 to anonymous callers, even
+    though Verily''s own open-source Terraform provider ships oapi-codegen clients generated from that
+    spec.'
   evidence:
   - url: https://workbench.verily.com/api/wsm/v3/api-docs
     status: 403
