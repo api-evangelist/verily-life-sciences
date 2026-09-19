@@ -44,6 +44,12 @@ apis:
   humanURL: https://support.workbench.verily.com/docs/
   baseURL: https://workbench.verily.com/api
   tags:
+  - Workspace
+  - Research Data
+  - Identity and Access Management
+  - Cloud Resources
+  - Workflows
+  tags_raw:
   - Workspaces
   - Research Data
   - IAM
