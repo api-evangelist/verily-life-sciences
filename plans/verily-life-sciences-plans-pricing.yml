@@ -63,3 +63,28 @@ trial:
     Release notes state that "new trial users are on a time-limited trial/demo license". The length of the
     trial is not published.
   source: https://support.workbench.verily.com/docs/release_notes/
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Standard
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Professional
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
