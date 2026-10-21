@@ -1,39 +1,4 @@
 edges:
-- partner_name: FDA (AI-enabled medical devices)
-  partner: null
-  partner_match: register
-  type: contract
-  channel: regulator-register
-  relationship: standard-participant
-  direction: partner-built
-  evidence: https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K213357
-  category: FDA-authorized AI-enabled medical device
-  contract_reference:
-    register: FDA AI-enabled medical devices list (fda.gov/media/178541 CSV)
-    standard: FDA AI-enabled medical device authorization
-    spec_file: null
-    role: fda-ai-device-holder
-    registered_name: Verily Life Sciences LLC
-    register_id: K213357
-    matched_domain: verily.com
-    matched_by: domain
-    identity: wikidata Q16867895 'Verily Life Sciences' P856 https://verily.com
-    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
-    devices_sample:
-    - Study Watch
-    - Study Watch with Irregular Pulse Monitor
-    - Study Watch with Irregular Pulse Monitor (Home), Study Watch with Irregular Pulse Monitor
-    certified_products:
-    - product: FDA-authorized AI-enabled device (Cardiovascular)
-      panel: Cardiovascular
-      lapsed: false
-      latest_authorization: '2022-07-19'
-    signal_note: certified_products = one entry per lead review PANEL, never per device; devices and submission
-      numbers are context, never counted. The list carries current authorizations only, so lapsed is always false
-    detected_by: sweep-medtech.py
-    detected: '2026-10-18'
-  detected_by: sweep-medtech.py
-  first_seen: '2026-10-18'
 - partner_name: Go module proxy
   partner: null
   partner_match: null
@@ -73,6 +38,75 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
+- partner_name: FDA (AI-enabled medical devices)
+  partner: null
+  partner_match: register
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K213357
+  category: FDA-authorized AI-enabled medical device
+  contract_reference:
+    register: FDA AI-enabled medical devices list (fda.gov/media/178541 CSV)
+    standard: FDA AI-enabled medical device authorization
+    spec_file: null
+    role: fda-ai-device-holder
+    registered_name: Verily Life Sciences LLC
+    register_id: K213357
+    matched_domain: verily.com
+    matched_by: domain
+    identity: wikidata Q16867895 'Verily Life Sciences' P856 https://verily.com
+    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+    devices_sample:
+    - Study Watch
+    - Study Watch with Irregular Pulse Monitor
+    - Study Watch with Irregular Pulse Monitor (Home), Study Watch with Irregular Pulse Monitor
+    certified_products:
+    - product: FDA-authorized AI-enabled device (Cardiovascular)
+      panel: Cardiovascular
+      lapsed: false
+      latest_authorization: '2022-07-19'
+    signal_note: certified_products = one entry per lead review PANEL, never per device; devices and submission
+      numbers are context, never counted. The list carries current authorizations only, so lapsed is always false
+    detected_by: sweep-medtech.py
+    detected: '2026-10-18'
+  detected_by: sweep-medtech.py
+  first_seen: '2026-10-18'
+- partner_name: ClinicalTrials.gov (industry trial sponsors and collaborators)
+  partner: null
+  partner_match: register-name
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://clinicaltrials.gov/study/NCT05701657
+  category: Interventional trial sponsor / collaborator
+  contract_reference:
+    register: ClinicalTrials.gov API v2 (interventional, started >= 2021-01-01, industry lead sponsor or collaborator)
+    standard: null
+    spec_file: null
+    role: trial-collaborator+lead-sponsor
+    registered_name: Verily Life Sciences LLC
+    matched_domain: null
+    matched_by: register-name
+    lead_sponsor: true
+    active_trial: true
+    latest_start: '2023-04-14'
+    trials_sample:
+    - NCT05701657
+    - NCT05275556
+    signal_note: 'PARTICIPATION only (a trial is not an approval): lead_sponsor, active_trial and latest_start are
+      per-edge signals; the number of trials is never counted'
+    detected_by: sweep-clinical-trial-sponsors.py
+    detected: '2026-10-21'
+    register_name_note: register-name 'verilylifesciences' = verily-life-sciences; wikidata P856 verily.com agrees
+      or unheld
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-clinical-trial-sponsors.py
+  first_seen: '2026-10-21'
 generated: '2026-10-18'
 method: searched
 source:
@@ -88,3 +122,7 @@ checked:
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
 - https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices
+- https://api.fda.gov/drug/drugsfda.json
+- https://clinicaltrials.gov/api/v2/studies
+- https://euclinicaltrials.eu/ctis-public/search
+- https://www.cdisc.org/members/search
